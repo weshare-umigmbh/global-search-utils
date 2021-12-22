@@ -1,14 +1,16 @@
 import setuptools
 
 dependencies = [
-    "google-cloud-secret-manager==1.0.0"
+    "google-cloud-secret-manager",
+    "elasticsearch",
+    "flask"
 ]
 
 packages = [
     package for package in setuptools.find_packages() if package.startswith("globalsearch")
 ]
 
-# Determine which namespaces are needed.
+# Determine which namespaces are needed.:w
 namespaces = ["globalsearch"]
 if "globalsearch.utils" in packages:
     namespaces.append("globalsearch.utils")
