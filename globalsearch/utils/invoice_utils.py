@@ -1,4 +1,4 @@
-from globalsearch.utils.elastic_uitls import assemble_update_body
+from mergedeep import merge
 
 
 def get_invoice_search_result(client, invoice_id):
@@ -13,12 +13,22 @@ def get_invoice_search_result(client, invoice_id):
     return search_invoice_result
 
 
-def create_or_update_invoice(client, stored_invoice_doc, transaction):
+def create_or_update_invoice(client, stored_invoice_doc, entity):
     if stored_invoice_doc is None:
-        response = client.index(index="alias-invoices", pipeline="pipeline-invoices", id=transaction.get("id"),
-                                document=transaction)
+        response = client.index(index="alias-invoices", pipeline="pipeline-invoices", id=entity.get("id"),
+                                document=entity)
     else:
-        response = client.update(id=stored_invoice_doc.get('_id'), index=stored_invoice_doc.get('_index'),
-                                 body=assemble_update_body(transaction), if_seq_no=stored_invoice_doc.get('_seq_no'),
-                                 if_primary_term=stored_invoice_doc.get('_primary_term'))
+        response = client.index(index="alias-invoices", pipeline="pipeline-invoices", id=entity.get("id"),
+                                document=entity, if_seq_no=stored_invoice_doc.get('_seq_no'),
+                                if_primary_term=stored_invoice_doc.get('_primary_term'))
     return response
+
+
+def merge_invoice_to_save(invoice, stored_invoice_doc):
+    if stored_invoice_doc is None:
+        return invoice
+
+    old_invoice = stored_invoice_doc.get("_source", {})
+    new_invoice = merge(old_invoice, invoice)
+
+    return new_invoice

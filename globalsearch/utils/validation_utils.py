@@ -1,7 +1,8 @@
 import flask
 
 
-def validate_enqueue_time(entity_update, new_enqueue_time, persisted_enqueue_time):
+def validate_enqueue_time(entity_update, persisted_enqueue_time):
+    new_enqueue_time = entity_update.get("enqueue_time", 0)
     if persisted_enqueue_time >= new_enqueue_time:
         print(f"Attempt to update with an outdated enqueue time is rejected. "
               f"Currently stored enqueue_time: {persisted_enqueue_time}, transaction_update: {entity_update}. "

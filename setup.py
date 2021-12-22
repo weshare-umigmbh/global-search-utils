@@ -3,7 +3,8 @@ import setuptools
 dependencies = [
     "google-cloud-secret-manager",
     "elasticsearch",
-    "flask"
+    "flask",
+    "mergedeep"
 ]
 
 packages = [
