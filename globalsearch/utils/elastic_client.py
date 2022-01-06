@@ -1,6 +1,6 @@
 import flask
 
-from globalsearch.utils.gcp_secret_util import get_secret
+from globalsearch.utils.gcp_secret_utils import get_secret
 from elasticsearch import Elasticsearch
 from umi.utils import log
 
