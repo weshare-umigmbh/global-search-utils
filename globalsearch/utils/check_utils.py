@@ -1,4 +1,5 @@
 import flask
+from umi.utils import log
 
 
 def check_dict_has_none_values(dictionary):
@@ -7,7 +8,7 @@ def check_dict_has_none_values(dictionary):
 
 def check_enqueue_time_is_present(entity):
     if not check_existence_and_non_null(entity, "enqueue_time"):
-        print(f"The enqueue time is missing or was null in update: {entity}.")
+        log.simple_entry(f"The enqueue time is missing or was null in update: {entity}.")
         flask.abort(flask.make_response(flask.jsonify(error={
             "code": "BadRequest",
             "message": f"The enqueue time is missing or was null in update: {entity}."
@@ -26,7 +27,7 @@ def check_all_values_are_non_null(entity):
     has_none_values = check_dict_has_none_values(entity)
 
     if has_none_values:
-        print(f"Update with null values was rejected")
+        log.simple_entry(f"Update with null values was rejected")
         flask.abort(flask.make_response(flask.jsonify(error={
             "code": "NullValuesNotAllowed",
             "message": "The request contained null values which are not allowed."
@@ -35,7 +36,7 @@ def check_all_values_are_non_null(entity):
 
 def check_api_key(key_in_secrets, key_in_header):
     if key_in_header != key_in_secrets:
-        print(f"Rejected request with invalid API key")
+        log.simple_entry(f"Rejected request with invalid API key")
         flask.abort(flask.make_response(flask.jsonify(error={
             "code": "AuthenticationError",
             "message": "Invalid API key."
@@ -44,7 +45,7 @@ def check_api_key(key_in_secrets, key_in_header):
 
 def check_if_id_is_present(entity_id):
     if not entity_id:
-        print(f"Update without specified id failed")
+        log.simple_entry(f"Update without specified id failed")
         flask.abort(flask.make_response(flask.jsonify(error={
             "code": "MissingId",
             "message": "Operation not possible since id is missing."

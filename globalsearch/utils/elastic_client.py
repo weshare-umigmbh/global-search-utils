@@ -2,6 +2,7 @@ import flask
 
 from globalsearch.utils.gcp_secret_util import get_secret
 from elasticsearch import Elasticsearch
+from umi.utils import log
 
 
 def get_elastic_client():
@@ -18,9 +19,9 @@ def get_elastic_client():
 
     try:
         client.ping()
-        print("Connected to Elasticsearch successfully")
+        log.simple_entry("Connected to Elasticsearch successfully")
     except ConnectionError:
-        print(f"Could not connect to Elasticsearch")
+        log.simple_entry(f"Could not connect to Elasticsearch")
         flask.abort(flask.make_response(flask.jsonify(error={
             "code": "InternalServerError",
             "message": "Could not connect to Elasticsearch"
