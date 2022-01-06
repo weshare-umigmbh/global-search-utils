@@ -2,12 +2,7 @@ import flask
 
 
 def check_dict_has_none_values(dictionary):
-    has_none_value = False
-    for key, value in dictionary.items():
-        if value is None:
-            has_none_value = True
-
-    return has_none_value
+    return None in dictionary.values()
 
 
 def check_enqueue_time_is_present(entity):
@@ -37,8 +32,6 @@ def check_all_values_are_non_null(entity):
             "message": "The request contained null values which are not allowed."
         }), 400))
 
-    return
-
 
 def check_api_key(key_in_secrets, key_in_header):
     if key_in_header != key_in_secrets:
@@ -47,12 +40,11 @@ def check_api_key(key_in_secrets, key_in_header):
             "code": "AuthenticationError",
             "message": "Invalid API key."
         }), 401))
-    return
 
 
 def check_if_id_is_present(entity_id):
-    if entity_id is None or entity_id == "":
-        print(f"update without specified id failed")
+    if not entity_id:
+        print(f"Update without specified id failed")
         flask.abort(flask.make_response(flask.jsonify(error={
             "code": "MissingId",
             "message": "Operation not possible since id is missing."
