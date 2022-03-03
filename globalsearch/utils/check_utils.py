@@ -16,6 +16,7 @@ def check_enqueue_time_is_present(entity):
 
 
 def check_existence_and_non_null(dictionary, key):
+    print(f"{key} has value: {dictionary.get(key)} and boolean: {dictionary.get(key) is not None}")
     return key in dictionary and dictionary.get(key) is not None
 
 
