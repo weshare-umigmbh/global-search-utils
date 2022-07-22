@@ -25,7 +25,7 @@ def check_token(request):
     except Exception as e:
         log.simple_entry(f"The Google ID token could not be verified: {e}")
         flask.abort(flask.make_response(flask.jsonify(error={
-            "code": "BadRequest",
+            "code": "AuthenticationError",
             "message": f"Invalid token: {e}\n"
         }), 400))
         return

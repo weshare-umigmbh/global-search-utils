@@ -6,11 +6,11 @@ def check_dict_has_none_values(dictionary):
     return None in dictionary.values()
 
 
-def check_enqueue_time_is_present(entity):
-    if not check_existence_and_non_null(entity, "enqueue_time"):
+def check_enqueue_time_is_present(entity, enqueue_time_field="enqueue_time"):
+    if not check_existence_and_non_null(entity, enqueue_time_field):
         log.simple_entry(f"The enqueue time is missing or was null in update: {entity}.")
         flask.abort(flask.make_response(flask.jsonify(error={
-            "code": "BadRequest",
+            "code": "MissingRequiredFields",
             "message": f"The enqueue time is missing or was null in update: {entity}."
         }), 400))
 
