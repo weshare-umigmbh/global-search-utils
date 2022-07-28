@@ -13,7 +13,7 @@ def get_invoice_search_result(client, invoice_id):
     return search_invoice_result
 
 
-def create_or_update_invoice(client, stored_invoice_doc, entity):
+def upsert_invoice(client, stored_invoice_doc, entity):
     if stored_invoice_doc is None:
         response = client.index(index="alias-invoices", id=entity.get("id"),
                                 document=entity)
