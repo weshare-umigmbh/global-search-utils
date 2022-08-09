@@ -16,11 +16,11 @@ def get_invoice_search_result(client, invoice_id):
 def upsert_invoice(client, stored_invoice_doc, entity):
     if stored_invoice_doc is None:
         response = client.index(index="alias-invoices", id=entity.get("id"),
-                                document=entity)
+                                document=entity, refresh=True)
     else:
         response = client.index(index="alias-invoices", id=entity.get("id"),
                                 document=entity, if_seq_no=stored_invoice_doc.get('_seq_no'),
-                                if_primary_term=stored_invoice_doc.get('_primary_term'))
+                                if_primary_term=stored_invoice_doc.get('_primary_term'), refresh=True)
     return response
 
 
